@@ -1,0 +1,180 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Material UI</title>
+
+    <!-- Google Fonts & Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .input-field {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .input-field label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: white;
+            padding: 0 5px;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input:focus + label,
+        .input-field input:not(:placeholder-shown) + label {
+            top: -8px;
+            font-size: 12px;
+            color: #3f51b5;
+        }
+
+        .input-field input:focus {
+            border-color: #3f51b5;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #3f51b5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #303f9f;
+        }
+
+        .social-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-login button {
+            margin: 5px;
+            background: #4285F4;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .social-login button:hover {
+            background: #357ae8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 style="text-align: center; color: #3f51b5;">Create an Account</h2>
+    <hr />
+
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+        <div class="input-field">
+            <input asp-for="Input.FullName" required placeholder=" " />
+            <label>Full Name</label>
+            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+        </div>
+
+        <div class="input-field">
+            <input asp-for="Input.Email" type="email" required placeholder=" " />
+            <label>Email</label>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+
+        <div class="input-field">
+            <input asp-for="Input.Password" type="password" required placeholder=" " />
+            <label>Password</label>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+
+        <div class="input-field">
+            <input asp-for="Input.ConfirmPassword" type="password" required placeholder=" " />
+            <label>Confirm Password</label>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <div class="input-field">
+            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" required>
+                <option disabled selected> Select Role</option>
+                @foreach (var role in Model.Input.RoleList)
+                {
+                    <option value="@role.Value">@role.Text</option>
+                }
+            </select>
+        </div>
+
+        <button id="registerSubmit" type="submit" class="btn">Register</button>
+    </form>
+
+    <div class="social-login">
+        <h4>Or Register With</h4>
+        @if ((Model.ExternalLogins?.Count ?? 0) == 0)
+        {
+            <p>No external authentication services available.</p>
+        }
+        else
+        {
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                @foreach (var provider in Model.ExternalLogins!)
+                {
+                    <button type="submit" name="provider" value="@provider.Name">
+                        <span class="material-icons">login</span> @provider.DisplayName
+                    </button>
+                }
+            </form>
+        }
+    </div>
+</div>
+
+</body>
+</html>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

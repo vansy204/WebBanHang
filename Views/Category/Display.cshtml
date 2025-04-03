@@ -1,0 +1,36 @@
+﻿@model WebsiteBanHang.Models.Category
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="center-align">Category Details</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col s12 m6 l4 offset-l4">
+            <!-- Card for Category Details -->
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="center-align">Category</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col s4">Name:</dt>
+                        <dd class="col s8">@Html.DisplayFor(model => model.Name)</dd>
+                    </dl>
+                </div>
+                <div class="card-action">
+                    <!-- Edit and Back buttons -->
+                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn waves-effect waves-light">Update</a>
+                    <a asp-action="Index" class="btn-flat waves-effect waves-light">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import Materialize CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+<!-- Import Materialize JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

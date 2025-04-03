@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <!-- Material UI CDN -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <!-- Bootstrap (can be removed if not needed) -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Material UI CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+</head>
+<body>
+<header>
+    <!-- Material UI Navbar -->
+    <div class="navbar-fixed">
+        <nav class="blue darken-1">
+            <div class="nav-wrapper container">
+                <a href="@Url.Action("Index", "Home")" class="brand-logo">
+                    <i class="material-icons left">home</i>Trang chủ
+                </a>
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a href="@Url.Action("Index", "Product")">
+                            <i class="material-icons left">shopping_basket</i>Product
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Category")">
+                            <i class="material-icons left">category</i>Category
+                        </a>
+                    </li>
+
+                    <!-- Login/Register or User Info Section -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a href="#" class="waves-effect waves-light btn-small">
+                                <i class="material-icons left">account_circle</i>@User.Identity.Name
+                            </a>
+                        </li>
+                       
+                        <li>
+                            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
+                                <button type="submit" class="waves-effect waves-light btn-small">
+                                    <i class="material-icons left">exit_to_app</i>Logout
+                                </button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@Url.Page("/Account/Register", new { area = "Identity" })" class="waves-effect waves-light btn-small">
+                                <i class="material-icons left">person_add</i>Register
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Page("/Account/Login", new { area = "Identity" })" class="waves-effect waves-light btn-small">
+                                <i class="material-icons left">login</i>Login
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Shopping Cart Button -->
+                    <li>
+                        <a href="@Url.Action("Index", "ShoppingCart")" class="btn-floating btn-medium waves-effect waves-light">
+                            <i class="material-icons">shopping_cart</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <ul class="sidenav" id="mobile-nav">
+        <li>
+            <a href="@Url.Action("Index", "Product")">
+                <i class="material-icons left">shopping_basket</i>Product
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Index", "Category")">
+                <i class="material-icons left">category</i>Category
+            </a>
+        </li>
+        <li class="divider"></li>
+
+        <!-- Login/Register or User Info Section (Mobile) -->
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li>
+                <a href="#" class="waves-effect waves-light">
+                    <i class="material-icons left">account_circle</i>@User.Identity.Name
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })">
+                    <i class="material-icons left">settings</i>Account
+                </a>
+            </li>
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
+                    <button type="submit" class="btn-flat" style="width:100%; text-align:left; padding-left:16px;">
+                        <i class="material-icons left">exit_to_app</i>Logout
+                    </button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="@Url.Page("/Account/Register", new { area = "Identity" })">
+                    <i class="material-icons left">person_add</i>Register
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Page("/Account/Login", new { area = "Identity" })">
+                    <i class="material-icons left">login</i>Login
+                </a>
+            </li>
+        }
+
+        <!-- Shopping Cart (Mobile) -->
+        <li class="divider"></li>
+        <li>
+            <form class="d-material-icons left" asp-controller="ShoppingCart" asp-action="Index" method="get">
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                </button>
+            </form>
+           
+        </li>
+    </ul>
+</header>
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<!-- Scripts -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="~/js/script.js" asp-append-version="true"></script>
+
+<!-- Initialize Material UI Components -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize sidenav
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems);
+
+        // Initialize dropdowns
+        var dropdowns = document.querySelectorAll('.dropdown-trigger');
+        var dropdownInstances = M.Dropdown.init(dropdowns, {
+            coverTrigger: false,
+            constrainWidth: false
+        });
+    });
+</script>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebsiteBanHang.Models.Category>
+
+@{
+    ViewData["Title"] = "Category List";
+}
+
+<!-- Import Materialize CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+<!-- Page Title -->
+<h1 class="center-align">Category List</h1>
+
+<!-- Create New Button -->
+<p class="center-align">
+    <a class="btn waves-effect waves-light" asp-action="Add">Create New</a>
+</p>
+
+<!-- Table -->
+<table class="highlight responsive-table">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Id)</th>
+        <th>@Html.DisplayNameFor(model => model.Name)</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            <td>
+                <a class="waves-effect waves-light btn-small" asp-action="Update" asp-route-id="@item.Id">Update</a> |
+                <a class="waves-effect waves-light btn-small" asp-action="Details" asp-route-id="@item.Id">Display</a> |
+                <a class="waves-effect waves-light btn-small red" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<!-- Import Materialize JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

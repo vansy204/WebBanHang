@@ -1,0 +1,42 @@
+﻿@using Newtonsoft.Json.Linq
+@model IEnumerable<WebsiteBanHang.Models.Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+    int numOfQuantity = 1;
+}
+<link rel="stylesheet" href="/css/StyleSheet.css">
+
+<!-- Import Materialize CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+<h1 class="center-align">Products</h1>
+
+<!-- Materialize Grid Layout for Products -->
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col s12 m6 l4">
+                <!-- Card for each product -->
+                <div class="card hoverable">
+                    <div class="card-image">
+                        <img src="@item.ImageUrl" alt="@item.Name" class="product-image" />
+                        <span class="card-title">@item.Name</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Price: @item.Price.ToString("#,##0") Vnđ</p>
+                    </div>
+                    <div class="card-action">
+                        <a asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-ProductId="@item.Id" asp-route-quantity="@numOfQuantity">
+                            <button class="btn waves-effect waves-light"><i class="bi-cart-fill me-1"></i> Add to Cart</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Import Materialize JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

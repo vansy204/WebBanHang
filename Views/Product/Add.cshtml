@@ -1,0 +1,114 @@
+﻿@model WebsiteBanHang.Models.Product
+
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h3 class="center-align blue-text text-darken-1">Add Product</h3>
+            <h5 class="center-align grey-text">Enter new product details</h5>
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m10 offset-m1 l8 offset-l2">
+            <div class="card-panel z-depth-2" style="border-radius: 10px;">
+                <form asp-action="Add" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="red-text"></div>
+
+                    <!-- Product Name -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">label</i>
+                        <input asp-for="Name" id="product_name" type="text" class="validate">
+                        <label asp-for="Name">Product Name</label>
+                        <span asp-validation-for="Name" class="red-text"></span>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">attach_money</i>
+                        <input asp-for="Price" id="product_price" type="number" class="validate">
+                        <label asp-for="Price">Price (VNĐ)</label>
+                        <span asp-validation-for="Price" class="red-text"></span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">description</i>
+                        <textarea asp-for="Description" id="product_description" class="materialize-textarea"></textarea>
+                        <label asp-for="Description">Description</label>
+                        <span asp-validation-for="Description" class="red-text"></span>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="file-field input-field">
+                        <div class="btn blue">
+                            <span><i class="material-icons left">image</i> Upload</span>
+                            <input type="file" asp-for="ImageUrl" id="image_upload">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="Upload product image">
+                        </div>
+                        <span asp-validation-for="ImageUrl" class="red-text"></span>
+                    </div>
+
+                    <!-- Image Preview -->
+                    <div class="center-align">
+                        <img id="image_preview" class="responsive-img hide" style="max-height: 200px; margin-top: 10px; border-radius: 5px;">
+                    </div>
+
+                    <!-- Category Selection -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">category</i>
+                        <select asp-for="CategoryId" asp-items="@ViewBag.Categories">
+                            <option value="" disabled selected>-- Select Category --</option>
+                        </select>
+                        <label>Category</label>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col s6 center-align">
+                            <a asp-action="Index" class="btn-flat waves-effect">
+                                <i class="material-icons left">arrow_back</i> Back
+                            </a>
+                        </div>
+                        <div class="col s6 center-align">
+                            <button type="submit" class="btn waves-effect waves-light blue darken-1">
+                                <i class="material-icons left">add</i> Create
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize select
+            var selectElems = document.querySelectorAll('select');
+            var selectInstances = M.FormSelect.init(selectElems);
+
+            // Initialize textareas
+            var textareaElems = document.querySelectorAll('.materialize-textarea');
+            var textareaInstances = M.textareaAutoResize(textareaElems);
+        });
+
+        // Image preview
+        document.getElementById("image_upload").addEventListener("change", function(event) {
+            const preview = document.getElementById("image_preview");
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                preview.src = reader.result;
+                preview.classList.remove("hide");
+            };
+
+            if (event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+    </script>
+}

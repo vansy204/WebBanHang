@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\2280600021_NguyenThiVanAn_Lab03WebsiteBanHang.props" />
+</Project>

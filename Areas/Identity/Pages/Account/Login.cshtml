@@ -1,0 +1,173 @@
+﻿@page
+@model LoginModel
+@{
+    Layout = "_LoginLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Material UI</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .input-field {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: white;
+            padding: 0 5px;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input:focus + label,
+        .input-field input:not(:placeholder-shown) + label {
+            top: -8px;
+            font-size: 12px;
+            color: #3f51b5;
+        }
+
+        .input-field input:focus {
+            border-color: #3f51b5;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #3f51b5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #303f9f;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .links a {
+            color: #3f51b5;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Đăng nhập -->
+    <div id="login-form">
+        <h2 style="text-align: center; color: #3f51b5;">Sign In</h2>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="input-field">
+                <input asp-for="Input.Email" type="email" required placeholder=" " />
+                <label>Email</label>
+            </div>
+
+            <div class="input-field">
+                <input asp-for="Input.Password" type="password" required placeholder=" " />
+                <label>Password</label>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+
+            <div class="links">
+                <a href="javascript:void(0)" onclick="switchToForgotPassword()">Forgot Password?</a>
+                <a href="javascript:void(0)" onclick="switchToSignUp()">Sign Up</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Quên mật khẩu -->
+    <div id="forgot-password-form" class="hidden">
+        <h2 style="text-align: center; color: #3f51b5;">Forgot Password</h2>
+        <form asp-page="./ForgotPassword" method="post">
+            <div class="input-field">
+                <input name="Input.Email" type="email" required placeholder=" " />
+                <label>Email</label>
+            </div>
+
+            <button type="submit" class="btn">Reset Password</button>
+
+            <div class="links">
+                <a href="javascript:void(0)" onclick="switchToSignIn()">Back to Login</a>
+            </div>
+        </form>
+    </div>
+    
+</div>
+
+<script>
+    function switchToSignIn() {
+        document.getElementById('login-form').classList.remove('hidden');
+        document.getElementById('forgot-password-form').classList.add('hidden');
+        document.getElementById('sign-up-form').classList.add('hidden');
+    }
+
+    function switchToForgotPassword() {
+        document.getElementById('forgot-password-form').classList.remove('hidden');
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('sign-up-form').classList.add('hidden');
+    }
+
+    function switchToSignUp() {
+        document.getElementById('sign-up-form').classList.remove('hidden');
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('forgot-password-form').classList.add('hidden');
+    }
+</script>
+
+</body>
+</html>
